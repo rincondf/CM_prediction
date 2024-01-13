@@ -5,14 +5,14 @@
 # and number of traps. They should be named "DDs", "moths", and "traps", 
 # respectively. 
 
-# This version makes all the calculations in Celsius degree-days, although the 
-# input could be provided in Fahrenheit, in which case conv.from.far = TRUE, 
+# This version makes all the calculations in Fahrenheit degree-days, although 
+# the input could be provided in Celsius, in which case conv.from.cel = TRUE, 
 # otherwise should be FALSE. 
 
-# The argument pred.lim stands for prediction limit in Celsius degree-days, 
-# which by default is 578 for the overwintering generation of 
-# the codling moth, and greater values are not accepted. The minimum allowed 
-# number of cumulative degree days is 70C (126F).
+# The argument pred.lim stands for prediction limit in Fahrenheit degree-days, 
+# which by default is 1039 for the overwintering generation of the codling moth, 
+# and greater values are not accepted. The minimum allowed number of cumulative 
+# degree days is 126F (70C).
 
 # The output is a data.frame with observed and predicted average counts of 
 # codling moths adults with the following columns:
@@ -28,13 +28,13 @@
 
 source("./Convert.R")
 
-proc_ph_FinC <- function(data, pred.lim = 578, conv.from.far = TRUE) {
+proc_ph_FinF <- function(data, pred.lim = 1039, conv.from.cel = FALSE) {
   
   pJohnSB_ph <- function(x) {
     gamma = 1.0737
     delta = 1.2394
-    xi = 69
-    lambda = 577.22
+    xi = 124.2
+    lambda = 1039
     pnorm(gamma + delta * (log((x - xi) / (lambda - (x - xi)))), 0 , 1)
   }
   
@@ -78,14 +78,14 @@ proc_ph_FinC <- function(data, pred.lim = 578, conv.from.far = TRUE) {
   
   dataC <- data
   
-  if(conv.from.far == TRUE) {
-    dataC$DDs <- FDD_CDD(dataC$DDs)
+  if(conv.from.cel == TRUE) {
+    dataC$DDs <- CDD_FDD(dataC$DDs)
   } else {
     dataC$DDs <- dataC$DDs
   }
   
-  if((pred.lim > 578) | (length(dataC$DDs) < 3) | any(dataC$DDs < 70)) {
-    stop("You have either too few data, or an incorrect prediction limit, or data below 70 DDs")
+  if((pred.lim > 1039) | (length(dataC$DDs) < 3) | any(dataC$DDs < 126)) {
+    stop("You have either too few data, or an incorrect prediction limit, or data below 126 DDs")
   }
   
   ddss <- dataC$DDs
@@ -101,7 +101,7 @@ proc_ph_FinC <- function(data, pred.lim = 578, conv.from.far = TRUE) {
   } else {
     prop <- pJohnSB_ph(ddss[length(ddss)])
     
-    ms1 <- pJohnSB_ph(seq(70, pred.lim)) * (x[length(x)]) / prop
+    ms1 <- pJohnSB_ph(seq(125, pred.lim)) * (x[length(x)]) / prop
     
     ms_up <- pJohnSB_ph(seq(round(ddss[length(ddss)]), pred.lim)) * (x[length(x)] + ((sqrt(desv(x[length(x)], key1(x[length(x)])) / ns)) * 
                                                                                        qnorm(0.9))) / prop
@@ -114,7 +114,7 @@ proc_ph_FinC <- function(data, pred.lim = 578, conv.from.far = TRUE) {
     
     for(i in 1:length(ms_up)){
       if (ms_up[i] > 0) {
-        desvi1[i] <- (((sqrt(desv(ms_up[i], key1(ms_up[i])) / ns)) + (res_err)) * qnorm(0.9)) * ((1 - (ddss[length(ddss)] / 577.22)))
+        desvi1[i] <- (((sqrt(desv(ms_up[i], key1(ms_up[i])) / ns)) + (res_err)) * qnorm(0.9)) * ((1 - (ddss[length(ddss)] / 1039)))
       }
       else desvi1 <- 0
     }
@@ -123,7 +123,7 @@ proc_ph_FinC <- function(data, pred.lim = 578, conv.from.far = TRUE) {
     
     for(i in 1:length(ms_down)){
       if (ms_down[i] > 0) {
-        desvi2[i] <- (((sqrt(desv(ms_down[i], key1(ms_down[i])) / ns)) + (res_err)) * qnorm(0.9)) * ((1 - (ddss[length(ddss)] / 577.22)))
+        desvi2[i] <- (((sqrt(desv(ms_down[i], key1(ms_down[i])) / ns)) + (res_err)) * qnorm(0.9)) * ((1 - (ddss[length(ddss)] / 1039)))
       }
       else desvi2 <- 0
     }
@@ -135,7 +135,7 @@ proc_ph_FinC <- function(data, pred.lim = 578, conv.from.far = TRUE) {
     
   }
   
-  moths_pred <- ms1[(round(ddss[length(ddss)]) - 69): length(ms1)]
+  moths_pred <- ms1[(round(ddss[length(ddss)]) - 124): length(ms1)]
   
   data.frame(DDs = seq(round(ddss[length(ddss)]), pred.lim), 
              moths_avg = moths_pred, 
