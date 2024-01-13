@@ -27,7 +27,7 @@ findbend <- function(x, start) {
   xint[which(!is.na(xint))]
 }
 
-# The Taylor's Power Law parameteres are then found by:
+# The Taylor's Power Law parameters are then found by:
 
 aa <- findbend(x = cbind(taylor$means, taylor$var), start = -1)
 
