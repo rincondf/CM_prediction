@@ -74,13 +74,14 @@ prod_obs <- function(DDs, ns, m) {
 # Let's use the first 12 data points of a generated dataset as input, 
 # but it can be any number.
 
-set1 <- prod_obs(seq(70, 578, 20), ns = 20, m = 30)[1:12,]
+set1 <- prod_obs(seq(70, 578, 20), ns = 20, m = 30)[1:12, ]
 
 # Using the version of the model with the phenology-based function (Celsius)
 a <- proc_ph_FinC(set1)
 
 # plot everything
-plot(set1$DDs, cumsum(set1$moths), xlim = c(70, 578), ylim = c(0, 40), type = "o", lwd = 2)
+plot(set1$DDs, cumsum(set1$moths), xlim = c(70, 578), ylim = c(0, 40), type = "o", 
+     lwd = 2, xlab = "Degree-days", ylab = "Cumulative counts")
 points(a$DDs, a$moths_avg,  type = "o", lwd = 2, col = "red")
 
 points(a$DDs, a$moths_max,  type = "l", lwd = 2, col = "red")
@@ -90,7 +91,8 @@ points(a$DDs, a$moths_min,  type = "l", lwd = 2, col = "red")
 # Using the version of the model with the moth capture function (Celsius)
 b <- proc_cap_FinC(set1)
 
-plot(set1$DDs, cumsum(set1$moths), xlim = c(70, 578), ylim = c(0, 50), type = "o", lwd = 2)
+plot(set1$DDs, cumsum(set1$moths), xlim = c(70, 578), ylim = c(0, 50), type = "o", 
+     lwd = 2, xlab = "Degree-days", ylab = "Cumulative counts")
 points(b$DDs, b$moths_avg,  type = "o", lwd = 2, col = "red")
 
 points(b$DDs, b$moths_max,  type = "l", lwd = 2, col = "red")
