@@ -25,6 +25,7 @@
 
 # This version of the model uses the phenology-based function from 
 # Jones & Wiman (2012).
+
 source("./functions/FDD_CDD.R")
 
 proc_ph_FinC <- function(data, pred.lim = 578, conv.from.far = TRUE) {
