@@ -24,6 +24,7 @@
 # 5. moths_min: Lower limit of the prediction interval
 
 # This version of the model uses an empirical moth capture function.
+
 source("./Convert.R")
 
 proc_cap_FinF <- function(data, pred.lim = 1039, conv.from.cel = FALSE) {

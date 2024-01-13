@@ -1,8 +1,9 @@
 # This function produces a predicted trajectory of cumulative average counts of 
-# codling moth adults captured in pheromone traps.The input is a data.frame 
-# with n > 3 number of observations with three variables: cumulative 
-# degree-days, average moths captured, and number of traps. They should be named
-# "DDs", "moths", and "traps", respectively. 
+# codling moth adults captured in pheromone traps.
+# The input is a data.frame with n > 3 number of observations with three 
+# variables: cumulative degree-days, average moths captured,
+# and number of traps. They should be named "DDs", "moths", and "traps", 
+# respectively. 
 
 # This version makes all the calculations in Celsius degree-days, although the 
 # input could be provided in Fahrenheit, in which case conv.from.far = TRUE, 
@@ -22,17 +23,17 @@
 # 4. moths_max: Upper limit of the prediction interval
 # 5. moths_min: Lower limit of the prediction interval
 
-# This version of the model uses an empirical moth capture function.
+# This version of the model uses the phenology-based function from 
+# Jones & Wiman (2012).
+source("./functions/FDD_CDD.R")
 
-source("./Convert.R")
-
-proc_cap_FinC <- function(data, pred.lim = 578, conv.from.far = TRUE) {
+proc_ph_FinC <- function(data, pred.lim = 578, conv.from.far = TRUE) {
   
   pJohnSB_ph <- function(x) {
-    gamma = 0.4603673
-    delta = 0.8674057
-    xi = 69.22063
-    lambda = 662.5367
+    gamma = 1.0737
+    delta = 1.2394
+    xi = 69
+    lambda = 577.22
     pnorm(gamma + delta * (log((x - xi) / (lambda - (x - xi)))), 0 , 1)
   }
   
@@ -67,32 +68,6 @@ proc_cap_FinC <- function(data, pred.lim = 578, conv.from.far = TRUE) {
     miu + ((miu^2) / k)
   }
   
-  deltamethodV2 <- function(x){
-    x1 = 0.4603673
-    x2 = 0.8674057
-    x3 = 69.22063
-    x4 = 662.5367
-    y = x
-    
-    e2 <- x3 + x4 - y
-    e3 <- y - x3
-    e6 <- log(e3) - log(e2)
-    e7 <- dnorm(x1 + x2 * e6, 0, 1)
-    
-    gg <- t(c(x1 = e7, x2 = e7 * e6, x3 = -(x2 * (e3/e2 + 1) * e7/e3), 
-              x4 = -(x2 * e7/e2)))
-    
-    
-    vcov = matrix(c(0.02903016, 0.010977323, -0.1683978, 5.746995,
-                    0.01097732, 0.008940147, -0.3770118, 2.938212,
-                    -0.16839779, -0.377011833, 57.3592901, -99.173763,
-                    5.74699489, 2.938211516, -99.1737628, 1676.090297), 4, 4)
-    
-    var.d <- gg %*% vcov %*% t(gg)
-    
-    
-    sqrt(diag(var.d))
-  }
   
   rmse <- function (actual, predicted) 
   {
@@ -134,13 +109,11 @@ proc_cap_FinC <- function(data, pred.lim = 578, conv.from.far = TRUE) {
     
     res_err <- rmse(x, pJohnSB_ph(ddss) * (x[length(x)]) / prop)
     
-    
     desvi1 <- rep(NA, length(ms_up))
     
     for(i in 1:length(ms_up)){
       if (ms_up[i] > 0) {
-        desvi1[i] <- (((deltamethodV2(seq(round(ddss[length(ddss)]), pred.lim)[i]) * (x[length(x)] + ((sqrt(desv(x[length(x)], key1(x[length(x)])) / ns)) * 
-                                                                                                        qnorm(0.9))) / prop) + (res_err)) * qnorm(0.9)) * ((1 - (ddss[length(ddss)] / 577.22)))
+        desvi1[i] <- (((sqrt(desv(ms_up[i], key1(ms_up[i])) / ns)) + (res_err)) * qnorm(0.9)) * ((1 - (ddss[length(ddss)] / 577.22)))
       }
       else desvi1 <- 0
     }
@@ -149,8 +122,7 @@ proc_cap_FinC <- function(data, pred.lim = 578, conv.from.far = TRUE) {
     
     for(i in 1:length(ms_down)){
       if (ms_down[i] > 0) {
-        desvi2[i] <- (((deltamethodV2(seq(round(ddss[length(ddss)]), pred.lim)[i]) * (x[length(x)] - ((sqrt(desv(x[length(x)], key1(x[length(x)])) / ns)) *
-                                                                                                        qnorm(0.9))) / prop) + (res_err)) * qnorm(0.9)) * ((1 - (ddss[length(ddss)] / 577.22)))
+        desvi2[i] <- (((sqrt(desv(ms_down[i], key1(ms_down[i])) / ns)) + (res_err)) * qnorm(0.9)) * ((1 - (ddss[length(ddss)] / 577.22)))
       }
       else desvi2 <- 0
     }
