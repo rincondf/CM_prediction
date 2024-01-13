@@ -26,7 +26,7 @@
 
 source("./Convert.R")
 
-proc_cap_FinC <- function(data, pred.lim = 578, conv.from.far = TRUE) {
+proc_cap_FinC <- function(data, pred.lim = 578, conv.from.far = FALSE) {
   
   pJohnSB_ph <- function(x) {
     gamma = 0.4603673
