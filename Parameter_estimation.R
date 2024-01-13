@@ -1,5 +1,5 @@
 # Procedure to distinguish the overwintering from the first summer generation 
-# from dataset and parameter estimation
+# from dataset and parameter estimation of JohnsonSB
 
 # vector of degree-days repeated in frequencies associated with the respective 
 # proportions captured
