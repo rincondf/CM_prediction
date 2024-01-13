@@ -23,6 +23,8 @@ IntersectFA <- optimize(NormIntersectA, interval =  c(600, 900), shape1 = mix_mo
 IntersectFA$minimum # is the DDs at which both distributions intercept
 
 # function for parameter estimation of JohnsonSB from DDs and proportions
+require(bbmle)
+require(emdbook)
 
 estimat <- function(DDs, prs, method){
   LL1 <- function(gamma, delta, a, b) {
