@@ -1,9 +1,10 @@
 # Procedure to distinguish the overwintering from the first summer generation 
-# from dataset and parameter estimation of JohnsonSB
+# from dataset and parameter estimation of JohnsonSB. The data is not available
+# in this repository, but can be requested at sirinfo@oksir.org
 
 # vector of degree-days repeated in frequencies associated with the respective 
 # proportions captured
-my_vec <- rep(DDs, round(cummPr*100))
+my_vec <- rep(DDs, round(prs*100))
 
 # function for parameter estimation of mixture models, assuming 80% associated 
 # with overwintering generation
@@ -49,5 +50,5 @@ estimat <- function(DDs, prs, method){
 
 # parameter estimation for trajectories constrained to IntersectFA$minimum
 
-mod1C <- estimat(DDs = DDs1000FA1, prs = cuFIN, method = "Nelder-Mead")
+mod1C <- estimat(DDs = DDs, prs = prs, method = "Nelder-Mead")
 summary(mod1C)
