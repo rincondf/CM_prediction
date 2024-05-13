@@ -1,7 +1,12 @@
 # Variance-mean model
 
-# This function finds the cutoff for a split-domine technique to find Taylor's 
-# Power Law parameters of a dataset that shows the Poisson sampling effect.
+# To run this code, please refer to the following data files: "meansCM.csv" and "varCM.csv".
+
+# The mentioned files are the means (x > 0) and corresponding variances of 134 trajectories from
+# seven locations, not used for validation.
+
+# This function finds the cutoff for a split-domine technique to estimate Taylor's 
+# Power Law parameters of a dataset that shows the "Poisson sampling effect".
 # x is a matrix with the data col 1 = means, col 2 = variances, and start is a 
 # starting value for the cutoff.
 
@@ -29,9 +34,26 @@ findbend <- function(x, start) {
 
 # The Taylor's Power Law parameters are then found by:
 
-aa <- findbend(x = cbind(taylor$means, taylor$var), start = -1)
+# For convenience, first make a data frame
 
-xint <- aa[length(aa)]
+read.csv("meansCM.csv")
+read.csv("varCM.csv")
+
+taylor <- data.frame(means = meansCM, var = varCM)
+
+
+# Run function to find the cutoff
+
+cto <- findbend(x = cbind(taylor$means, taylor$var), start = -1)
+
+# The estimated cutoff is the last element in the output vector
+
+xint <- cto[length(cto)]
+
+# Then, find parameters from OLS
+
+taylor$lmeans <- log(taylor$means)
+taylor$lvar <- log(taylor$var)
 
 vmmod <- lm(lvar ~ lmeans, data = taylor, subset = (lmeans > xint))
 summary(vmmod)
