@@ -139,8 +139,6 @@ prod_obs <- function(DDs, ns, m) {
 # to: DDs of the limit of the prediction (e.g., the end of the overwintering generation is 577.22 DDs)
 test_proc_cap <- function(data, lim, to) {
   dataC <- data
-  dataC$DDs <- FDD_CDD(dataC$DDs)
-  
   ddss <- dataC$DDs[which(dataC$DDs <= lim)]
   x <- cumsum(dataC$moths[which(dataC$DDs <= lim)])
   ns <- mean(dataC$traps[which(dataC$DDs <= lim)])
@@ -229,8 +227,6 @@ test_proc_cap <- function(data, lim, to) {
 # to: DDs of the limit of the prediction (e.g., the end of the overwintering generation is 577.22 DDs)
 test_proc_ph <- function(data, lim, to) {
   dataC <- data
-  dataC$DDs <- FDD_CDD(dataC$DDs)
-  
   ddss <- dataC$DDs[which(dataC$DDs <= lim)]
   x <- cumsum(dataC$moths[which(dataC$DDs <= lim)])
   ns <- mean(dataC$traps[which(dataC$DDs <= lim)])
