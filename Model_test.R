@@ -3,7 +3,7 @@ source("./Moth_Capture_Fahrenheit.R")
 source("./Phenology_Celsius.R")
 source("./Phenology_Fahrenheit.R")
 
-source("./Convert.R")
+source("./Functions.R")
 
 
 # This function generates mean counts of codling moth captures in pheromone 
@@ -24,35 +24,6 @@ prod_obs <- function(DDs, ns, m) {
     z = (x - xi) / lambda
     (delta / (lambda * sqrt(pi*2) * z * (1-z))) * 
       exp(-0.5 * (gamma + delta * log(z / (1 - z)))^2)
-  }
-  
-  xint <- -2.538045
-  
-  key <- function(miu) {
-    respu <- rep(NA, length(miu))
-    
-    for(i in 1: length(miu)) {
-      if(miu[i] <= exp(xint)) {
-        a <- 2.057018
-        b <- 1.160769
-        err <- 0.2939689
-      } else {
-        a <- 6.411532
-        b <- 1.608689
-        err <- 0.5904043
-      }
-      
-      if(miu[i] <= 0) {
-        respu[i] <- 0
-      } else {
-        respu[i] <- (miu[i]^2) / ((a * miu[i]^b * exp(rnorm(1, mean = 0, sd = err))) - miu[i])
-        if(respu[i] <= 0) respu[i] <- 1e-10
-      }
-      
-    }
-    
-    respu
-    
   }
   
   obstw <- rep(NA, length(DDs) - 1)

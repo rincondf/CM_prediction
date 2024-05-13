@@ -26,7 +26,7 @@
 # This version of the model uses the phenology-based function from 
 # Jones & Wiman (2012).
 
-source("./Convert.R")
+source("./Functions.R")
 
 proc_ph_FinC <- function(data, pred.lim = 578, conv.from.far = FALSE) {
   
@@ -37,38 +37,6 @@ proc_ph_FinC <- function(data, pred.lim = 578, conv.from.far = FALSE) {
     lambda = 577.22
     pnorm(gamma + delta * (log((x - xi) / (lambda - (x - xi)))), 0 , 1)
   }
-  
-  xint <- -2.538045
-  
-  key1 <- function(miu) {
-    respu <- rep(NA, length(miu))
-    
-    for(i in 1: length(miu)) {
-      if(miu[i] <= exp(xint)) {
-        a <- 2.057018
-        b <- 1.160769
-      } else {
-        a <- 6.411532
-        b <- 1.608689
-      }
-      
-      if(miu[i] <= 0) {
-        respu[i] <- 0
-      } else {
-        respu[i] <- (miu[i]^2) / ((a * miu[i]^b) - miu[i])
-        if(respu[i] <= 0) respu[i] <- 1e-10
-      }
-      
-    }
-    
-    respu
-    
-  }
-  
-  desv <- function(miu, k) {
-    miu + ((miu^2) / k)
-  }
-  
   
   rmse <- function (actual, predicted) 
   {

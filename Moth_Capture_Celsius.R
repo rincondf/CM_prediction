@@ -24,7 +24,7 @@
 
 # This version of the model uses an empirical moth capture function.
 
-source("./Convert.R")
+source("./Functions.R")
 
 proc_cap_FinC <- function(data, pred.lim = 578, conv.from.far = FALSE) {
   
@@ -36,69 +36,10 @@ proc_cap_FinC <- function(data, pred.lim = 578, conv.from.far = FALSE) {
     pnorm(gamma + delta * (log((x - xi) / (lambda - (x - xi)))), 0 , 1)
   }
   
-  xint <- -2.538045
-  
-  key1 <- function(miu) {
-    respu <- rep(NA, length(miu))
-    
-    for(i in 1: length(miu)) {
-      if(miu[i] <= exp(xint)) {
-        a <- 2.057018
-        b <- 1.160769
-      } else {
-        a <- 6.411532
-        b <- 1.608689
-      }
-      
-      if(miu[i] <= 0) {
-        respu[i] <- 0
-      } else {
-        respu[i] <- (miu[i]^2) / ((a * miu[i]^b) - miu[i])
-        if(respu[i] <= 0) respu[i] <- 1e-10
-      }
-      
-    }
-    
-    respu
-    
-  }
-  
-  desv <- function(miu, k) {
-    miu + ((miu^2) / k)
-  }
-  
-  deltamethodV2 <- function(x){
-    x1 = 0.4603673
-    x2 = 0.8674057
-    x3 = 69.22063
-    x4 = 662.5367
-    y = x
-    
-    e2 <- x3 + x4 - y
-    e3 <- y - x3
-    e6 <- log(e3) - log(e2)
-    e7 <- dnorm(x1 + x2 * e6, 0, 1)
-    
-    gg <- t(c(x1 = e7, x2 = e7 * e6, x3 = -(x2 * (e3/e2 + 1) * e7/e3), 
-              x4 = -(x2 * e7/e2)))
-    
-    
-    vcov = matrix(c(0.02903016, 0.010977323, -0.1683978, 5.746995,
-                    0.01097732, 0.008940147, -0.3770118, 2.938212,
-                    -0.16839779, -0.377011833, 57.3592901, -99.173763,
-                    5.74699489, 2.938211516, -99.1737628, 1676.090297), 4, 4)
-    
-    var.d <- gg %*% vcov %*% t(gg)
-    
-    
-    sqrt(diag(var.d))
-  }
-  
   rmse <- function (actual, predicted) 
   {
     return(sqrt(mean((actual - predicted)^2)))
   }
-  
   
   dataC <- data
   
