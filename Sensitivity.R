@@ -8,9 +8,6 @@ require(parallel)
 n_cores <- 22 # must be < the number of available cores un the computer processor.
 cl <- makeCluster(n_cores)
 clusterEvalQ(cl, {
-  library(ExtDist)
-  library(SuppDists)
-  library(Metrics)
   library(bbmle)
 })
 
@@ -21,7 +18,7 @@ clusterExport(cl, c("deltamethodV2", "test_proc_cap", "key", "key1", "prod_obs",
 
 # timing plus sample size
 
-fall5_150 <- parSapply(cl, 1:1000, function(x) test_proc_cap(data = prod_obs(seq(70, 578, 20), ns = 5, m = 20), lim = 150, to = 578))
+fall5_150 <- parSapply(cl, 1:100, function(x) test_proc_cap(data = prod_obs(seq(70, 578, 20), ns = 5, m = 20), lim = 150, to = 578))
 fall5_250 <- parSapply(cl, 1:1000, function(x) test_proc_cap(data = prod_obs(seq(70, 578, 20), ns = 5, m = 20), lim = 250, to = 578))
 fall5_350 <- parSapply(cl, 1:1000, function(x) test_proc_cap(data = prod_obs(seq(70, 578, 20), ns = 5, m = 20), lim = 350, to = 578))
 fall5_450 <- parSapply(cl, 1:1000, function(x) test_proc_cap(data = prod_obs(seq(70, 578, 20), ns = 5, m = 20), lim = 450, to = 578))

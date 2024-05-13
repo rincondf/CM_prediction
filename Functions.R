@@ -152,6 +152,18 @@ test_proc_cap <- function(data, lim, to) {
                    coll)
   coll[length(coll)] <- AF2(to)
   
+  pJohnSBcap <- function(x) {
+    gamma = 0.4603673
+    delta = 0.8674057
+    xi = 69.22063
+    lambda = 662.5367
+    pnorm(gamma + delta * (log((x - xi) / (lambda - (x - xi)))), 0 , 1)
+  }
+  
+  rmse <- function (actual, predicted) 
+  {
+    return(sqrt(mean((actual - predicted)^2)))
+  }
   
   if(sum(x) == 0) {
     ms1 <- rep(0, 901)
@@ -160,29 +172,18 @@ test_proc_cap <- function(data, lim, to) {
     up11 <- rep(0, length(coll))
     lo22 <- rep(0, length(coll))
   } else {
-    prop <- pJohnsonSB(ddss[length(ddss)], params = list(gamma = 0.4603673, delta = 0.8674057, xi = 69.22063, 
-                                                         lambda = 662.5367))
+    prop <- pJohnSBcap(ddss[length(ddss)])
     
-    ms1 <- pJohnsonSB(seq(70, 577.22), 
-                      params = list(gamma = 0.4603673, delta = 0.8674057, xi = 69.22063, 
-                                    lambda = 662.5367)) * (x[length(x)]) / prop
+    ms1 <- pJohnSBcap(seq(70, 577.22)) * (x[length(x)]) / prop
     
     
-    ms_up <- pJohnsonSB(c(dataC$DDs[inners], to), 
-                        params = list(gamma = 0.4603673, delta = 0.8674057, xi = 69.22063, 
-                                      lambda = 662.5367)) * (x[length(x)] + ((sqrt(desv(x[length(x)], key1(x[length(x)])) / ns)) * 
+    ms_up <- pJohnSBcap(c(dataC$DDs[inners], to)) * (x[length(x)] + ((sqrt(desv(x[length(x)], key1(x[length(x)])) / ns)) * 
                                                                                qnorm(0.9))) / prop
     
-    ms_down <- pJohnsonSB(c(dataC$DDs[inners], to), 
-                          params = list(gamma = 0.4603673, delta = 0.8674057, xi = 69.22063, 
-                                        lambda = 662.5367)) * (x[length(x)] - ((sqrt(desv(x[length(x)], key1(x[length(x)])) / ns)) * 
+    ms_down <- pJohnSBcap(c(dataC$DDs[inners], to)) * (x[length(x)] - ((sqrt(desv(x[length(x)], key1(x[length(x)])) / ns)) * 
                                                                                  qnorm(0.9))) / prop
     
-    res_err <- rmse(x, pJohnsonSB(ddss, 
-                                  params = list(gamma = 0.4603673, delta = 0.8674057, xi = 69.22063, 
-                                                lambda = 662.5367)) * (x[length(x)]) / prop)
-    
-    
+    res_err <- rmse(x, pJohnSBcap(ddss) * (x[length(x)]) / prop)
     
     
     desvi1 <- rep(NA, length(ms_up))
@@ -241,6 +242,19 @@ test_proc_ph <- function(data, lim, to) {
                    coll)
   coll[length(coll)] <- AF2(to)
   
+  pJohnSB_ph <- function(x) {
+    gamma = 1.0737
+    delta = 1.2394
+    xi = 69
+    lambda = 577.22
+    pnorm(gamma + delta * (log((x - xi) / (lambda - (x - xi)))), 0 , 1)
+  }
+  
+  rmse <- function (actual, predicted) 
+  {
+    return(sqrt(mean((actual - predicted)^2)))
+  }
+  
   
   if(sum(x) == 0) {
     ms1 <- rep(0, 901)
@@ -249,30 +263,16 @@ test_proc_ph <- function(data, lim, to) {
     up11 <- rep(0, length(coll))
     lo22 <- rep(0, length(coll))
   } else {
-    prop <- pJohnsonSB(ddss[length(ddss)], params = list(gamma = 1.0737, delta = 1.2394, xi = 69, 
-                                                         lambda = 577.22))
+    prop <- pJohnSB_ph(ddss[length(ddss)])
     
-    ms1 <- pJohnsonSB(seq(70, 577.22), 
-                      params = list(gamma = 1.0737, delta = 1.2394, xi = 69, 
-                                    lambda = 577.22)) * (x[length(x)]) / prop
+    ms1 <- pJohnSB_ph(seq(70, 577.22)) * (x[length(x)]) / prop
     
-    ms_up <- pJohnsonSB(c(dataC$DDs[inners], to), 
-                        params = list(gamma = 1.0737, delta = 1.2394, xi = 69, 
-                                      lambda = 577.22)) * (x[length(x)] + ((sqrt(desv(x[length(x)], key1(x[length(x)])) / ns)) * 
+    ms_up <- pJohnSB_ph(c(dataC$DDs[inners], to)) * (x[length(x)] + ((sqrt(desv(x[length(x)], key1(x[length(x)])) / ns)) * 
                                                                              qnorm(0.9))) / prop
-    ms_down <- pJohnsonSB(c(dataC$DDs[inners], to), 
-                          params = list(gamma = 1.0737, delta = 1.2394, xi = 69, 
-                                        lambda = 577.22)) * (x[length(x)] - ((sqrt(desv(x[length(x)], key1(x[length(x)])) / ns)) * 
+    ms_down <- pJohnSB_ph(c(dataC$DDs[inners], to)) * (x[length(x)] - ((sqrt(desv(x[length(x)], key1(x[length(x)])) / ns)) * 
                                                                                qnorm(0.9))) / prop
     
-    res_err <- rmse(x, pJohnsonSB(ddss, 
-                                  params = list(gamma = 1.0737, delta = 1.2394, xi = 69, 
-                                                lambda = 577.22)) * (x[length(x)]) / prop)
-    
-    
-    
-    
-    
+    res_err <- rmse(x, pJohnSB_ph(ddss) * (x[length(x)]) / prop)
     
     desvi1 <- rep(NA, length(ms_up))
     
