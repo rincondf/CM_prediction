@@ -29,7 +29,7 @@ source("./Functions.R")
 
 proc_cap_FinF <- function(data, pred.lim = 1039, conv.from.cel = FALSE) {
   
-  pJohnSB_ph <- function(x) {
+  pJohnSB_capF <- function(x) {
     gamma = 0.4603673
     delta = 0.8674057
     xi = 124.5971
@@ -65,16 +65,16 @@ proc_cap_FinF <- function(data, pred.lim = 1039, conv.from.cel = FALSE) {
     up11 <- rep(0, length(coll))
     lo22 <- rep(0, length(coll))
   } else {
-    prop <- pJohnSB_ph(ddss[length(ddss)])
+    prop <- pJohnSB_capF(ddss[length(ddss)])
     
-    ms1 <- pJohnSB_ph(seq(125, pred.lim)) * (x[length(x)]) / prop
+    ms1 <- pJohnSB_capF(seq(125, pred.lim)) * (x[length(x)]) / prop
     
-    ms_up <- pJohnSB_ph(seq(round(ddss[length(ddss)]), pred.lim)) * (x[length(x)] + ((sqrt(desv(x[length(x)], key1(x[length(x)])) / ns)) * 
+    ms_up <- pJohnSB_capF(seq(round(ddss[length(ddss)]), pred.lim)) * (x[length(x)] + ((sqrt(desv(x[length(x)], key1(x[length(x)])) / ns)) * 
                                                                                        qnorm(0.9))) / prop
-    ms_down <- pJohnSB_ph(seq(round(ddss[length(ddss)]), pred.lim)) * (x[length(x)] - ((sqrt(desv(x[length(x)], key1(x[length(x)])) / ns)) * 
+    ms_down <- pJohnSB_capF(seq(round(ddss[length(ddss)]), pred.lim)) * (x[length(x)] - ((sqrt(desv(x[length(x)], key1(x[length(x)])) / ns)) * 
                                                                                          qnorm(0.9))) / prop
     
-    res_err <- rmse(x, pJohnSB_ph(ddss) * (x[length(x)]) / prop)
+    res_err <- rmse(x, pJohnSB_capF(ddss) * (x[length(x)]) / prop)
     
     
     desvi1 <- rep(NA, length(ms_up))
