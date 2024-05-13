@@ -68,10 +68,11 @@ estimat <- function(DDs, prs, method){
   MLL
 }
 
-# Parameter estimation for trajectories constrained to IntersectFA$minimum
+# Parameter estimation for trajectories constrained to IntersectFA$minimum. Degree-days smaller than
+# 55 were removed from the analysis.
 
 
-mod1C <- estimat(DDs = DDsC, prs = prsC, method = "Nelder-Mead")
+mod1C <- estimat(DDs = DDsC[which(DDsC > 55)], prs = prsC[which(DDsC > 55)], method = "Nelder-Mead")
 summary(mod1C)
 
 

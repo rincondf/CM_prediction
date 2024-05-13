@@ -6,6 +6,11 @@ The provided folder should contain the following files:
 
 1. "meansCM.csv"
 2. "varCM.csv"
+3. "DDs.csv"
+4. "prp_DDs.csv"
+5. "DDsC.csv"
+6. "prp_DDsC.csv"
+7. "cumprp_DDsC.csv"
 
 "Var-mean_model.R" is the procedure used for Taylor's power Law parameter estimation.
 "Parameter_estimation.R" includes the functions used for parameter estimation of JohnsonSB distributions and distinction of generations with mixture models
