@@ -119,6 +119,16 @@ mtext("B", side = 3, cex = 2, line = 1, at = -130)
 
 load("example.RData")
 
+# the example trajectory is ddss_ph (degree-days) ans x_ph (recorded mean counts) up to 240 degree-days.
+# up11_ph is the upper limit for the phenology-based model
+# ms1_ph is the mean prediction for the phenology-based model
+# lo22_ph is the lower limit for the phenology-based model
+# up11 is the upper limit for the moth-capture model
+# ms1 is the mean prediction for the moth-cature model
+# lo22 lower limit for the moth-capture model
+# xss, coll are the degree-days and mean counts for the rest of the recorded trajectory, for comparison with the prediction.
+
+
 par(mar = c(5, 8, 0, 2) + 0.1)
 plot(ddss_ph, x_ph, type = "o", xlim = c(70, 578), ylim = c(0, 80),
      xlab = "Cumulative degree-days", ylab = "", cex.lab = 2, cex.axis = 1.8, lwd = 2, yaxt = "n", xaxt = "n")
@@ -136,11 +146,11 @@ polygon(c(seq(round(ddss_ph[length(ddss_ph)]), 577.22), seq(577.22, round(ddss_p
         c(lo22_ph[(round(ddss_ph[length(ddss_ph)])-69): 508], ms1_ph[(round(ddss_ph[length(ddss_ph)])-69): 508][337:1]), col= t_blue,
         border = NA)
 
-polygon(c(seq(round(ddss[length(ddss)]), 577.22), seq(577.22, round(ddss[length(ddss)]), -1)), 
-        c(up11[(round(ddss[length(ddss)])-69): 508], ms1[(round(ddss[length(ddss)])-69): 508][337:1]), col= t_grey, border = NA)
+polygon(c(seq(round(ddss_ph[length(ddss_ph)]), 577.22), seq(577.22, round(ddss_ph[length(ddss_ph)]), -1)), 
+        c(up11[(round(ddss_ph[length(ddss_ph)])-69): 508], ms1[(round(ddss_ph[length(ddss_ph)])-69): 508][337:1]), col= t_grey, border = NA)
 
-polygon(c(seq(round(ddss[length(ddss)]), 577.22), seq(577.22, round(ddss[length(ddss)]), -1)), 
-        c(lo22[(round(ddss[length(ddss)])-69): 508], ms1[(round(ddss[length(ddss)])-69): 508][337:1]), col= t_grey, border = NA)
+polygon(c(seq(round(ddss_ph[length(ddss_ph)]), 577.22), seq(577.22, round(ddss_ph[length(ddss_ph)]), -1)), 
+        c(lo22[(round(ddss_ph[length(ddss_ph)])-69): 508], ms1[(round(ddss_ph[length(ddss_ph)])-69): 508][337:1]), col= t_grey, border = NA)
 
 lines(seq(70, 577.22), ms1_ph, lwd = 2, col = "blue")
 
@@ -149,12 +159,12 @@ lines(seq(round(ddss_ph[length(ddss_ph)]), 577.22), up11_ph[(round(ddss_ph[lengt
 segments(round(ddss_ph[length(ddss_ph)]), x_ph[length(x_ph)], round(ddss_ph[length(ddss_ph)]), up11_ph[(round(ddss_ph[length(ddss_ph)])-69)], col = "blue", lty = 2, lwd =2)
 lines(seq(round(ddss_ph[length(ddss_ph)]), 577.22), lo22_ph[(round(ddss_ph[length(ddss_ph)])-69): 508], col = "blue", lty = 2, lwd = 2)
 
-lines(seq(70, to), ms1, lwd = 2, col = "grey38")
+lines(seq(70, 578), ms1, lwd = 2, col = "grey38")
 
-lines(seq(round(ddss[length(ddss)]), to), ms1[(round(ddss[length(ddss)])-69): length(ms1)], col = "grey38", lwd = 3)
-lines(seq(round(ddss[length(ddss)]), to), up11[(round(ddss[length(ddss)])-69): length(up11)], col = "grey38", lty = 2, lwd = 2)
-segments(round(ddss[length(ddss)]), x[length(x)], round(ddss[length(ddss)]), up11[(round(ddss[length(ddss)])-69)], col = "grey38", lty = 2, lwd =2)
-lines(seq(round(ddss[length(ddss)]), to), lo22[(round(ddss[length(ddss)])-69): length(lo22)], col = "grey38", lty = 2, lwd = 2)
+lines(seq(round(ddss_ph[length(ddss_ph)]), 578), ms1[(round(ddss_ph[length(ddss_ph)])-69): length(ms1)], col = "grey38", lwd = 3)
+lines(seq(round(ddss_ph[length(ddss_ph)]), 578), up11[(round(ddss_ph[length(ddss_ph)])-69): length(up11)], col = "grey38", lty = 2, lwd = 2)
+segments(round(ddss_ph[length(ddss_ph)]), x_ph[length(x_ph)], round(ddss_ph[length(ddss_ph)]), up11[(round(ddss_ph[length(ddss_ph)])-69)], col = "grey38", lty = 2, lwd =2)
+lines(seq(round(ddss_ph[length(ddss_ph)]), 578), lo22[(round(ddss_ph[length(ddss_ph)])-69): length(lo22)], col = "grey38", lty = 2, lwd = 2)
 
 points(xss, 
        coll, type = "o", col = "brown", lwd = 2)
