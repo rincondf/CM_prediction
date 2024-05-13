@@ -1,6 +1,5 @@
 # Required functions to run sensitivity and validation analysis.
 
-
 # Functions to convert from Celsius degree-days to Fahrenheit degree-days and vice versa.
 # From C to F
 CDD_FDD <- function(x) {
@@ -16,7 +15,7 @@ FDD_CDD <- function(x) {
 load("lm_varmean.RData")
 
 
-# Functions run sensitivity analysis
+# Functions to run sensitivity analysis
 # Delta method to find confidence intervals for the moth-capture model
 deltamethodV2 <- function(x){
   x1 = 0.4603673
@@ -105,28 +104,39 @@ desv <- function(miu, k) {
   miu + ((miu^2) / k)
 }
 
-# Function to generate trajectories from a negative binomial
-prod_obs2.0 <- function(weeks, ns, m) {
+# Function to generate trajectories from a negative binomial. DDs is a sequence of Celsius degree-days for which counts will be 
+# produced, ns is the sample size per time (traps) and m is the total number of moths for the simulated trajectory.
+prod_obs <- function(DDs, ns, m) {
   
-  obstw <- rep(NA, length(weeks) - 1)
-  porps <- rep(NA, (length(weeks) - 1))
-  
-  for(i in 1:(length(weeks) - 1)) {
-    porps[i] <- sum(dJohnsonSB(seq(weeks[i], weeks[i + 1], 1), 
-                               params = list(gamma = 1.0737, 
-                                             delta = 1.2394, 
-                                             xi = 69, lambda = 577.22)))
+  dJohnSB_phC <- function(x) {
+    gamma = 1.0737
+    delta = 1.2394
+    xi = 69
+    lambda = 577.22
+    z = (x - xi) / lambda
+    (delta / (lambda * sqrt(pi*2) * z * (1-z))) * 
+      exp(-0.5 * (gamma + delta * log(z / (1 - z)))^2)
   }
   
-  for(i in 1:(length(weeks) - 1)) {
+  obstw <- rep(NA, length(DDs) - 1)
+  porps <- rep(NA, (length(DDs) - 1))
+  
+  for(i in 1:(length(DDs) - 1)) {
+    porps[i] <- sum(dJohnSB_phC(seq(DDs[i], DDs[i + 1], 1)))
+  }
+  
+  for(i in 1:(length(DDs) - 1)) {
     obstw[i] <- mean(sample(rnbinom(100000, size = key(porps[i]*m), 
                                     mu = porps[i]*m), ns))
   }
-  resp <- data.frame(DDs = weeks[2: length(weeks)], moths = obstw, traps = rep(ns, length(obstw)))
+  resp <- data.frame(DDs = DDs[2: length(DDs)], moths = obstw, traps = rep(ns, length(obstw)))
   resp
 }
 
-# Function to test the moth-capture model using computer generated trajectories
+# Function to test the moth-capture model using computer-generated or observed trajectories.
+# data: data frame with the entire trajectory with three columns: "DDs" (degree-days), "moths" (mean counts), and "traps" (number of traps).
+# lim: DDs when the preduction is to be made.
+# to: DDs of the limit of the prediction (e.g., the end of the overwintering generation is 577.22 DDs)
 test_proc_cap <- function(data, lim, to) {
   dataC <- data
   dataC$DDs <- FDD_CDD(dataC$DDs)
@@ -212,4 +222,89 @@ test_proc_cap <- function(data, lim, to) {
   
 }
 
-
+# Function to test the phenology-based model using computer-generated or observed trajectories.
+# data: data frame with the entire trajectory with three columns: "DDs" (degree-days), "moths" (mean counts), and "traps" (number of traps).
+# lim: DDs when the preduction is to be made.
+# to: DDs of the limit of the prediction (e.g., the end of the overwintering generation is 577.22 DDs)
+test_proc_ph <- function(data, lim, to) {
+  dataC <- data
+  dataC$DDs <- FDD_CDD(dataC$DDs)
+  
+  ddss <- dataC$DDs[which(dataC$DDs <= lim)]
+  x <- cumsum(dataC$moths[which(dataC$DDs <= lim)])
+  ns <- mean(dataC$traps[which(dataC$DDs <= lim)])
+  
+  inners <- which((dataC$DDs >= ddss[length(ddss)]) & (dataC$DDs <= to))
+  coll <- cumsum(dataC$moths)[c(inners, (1 + inners[length(inners)]))]
+  
+  AF2 <- approxfun(dataC$DDs[c(inners, (1 + inners[length(inners)]))], 
+                   coll)
+  coll[length(coll)] <- AF2(to)
+  
+  
+  if(sum(x) == 0) {
+    ms1 <- rep(0, 901)
+    ms_up <- rep(0, length(coll))
+    ms_down <- rep(0, length(coll))
+    up11 <- rep(0, length(coll))
+    lo22 <- rep(0, length(coll))
+  } else {
+    prop <- pJohnsonSB(ddss[length(ddss)], params = list(gamma = 1.0737, delta = 1.2394, xi = 69, 
+                                                         lambda = 577.22))
+    
+    ms1 <- pJohnsonSB(seq(70, 577.22), 
+                      params = list(gamma = 1.0737, delta = 1.2394, xi = 69, 
+                                    lambda = 577.22)) * (x[length(x)]) / prop
+    
+    ms_up <- pJohnsonSB(c(dataC$DDs[inners], to), 
+                        params = list(gamma = 1.0737, delta = 1.2394, xi = 69, 
+                                      lambda = 577.22)) * (x[length(x)] + ((sqrt(desv(x[length(x)], key1(x[length(x)])) / ns)) * 
+                                                                             qnorm(0.9))) / prop
+    ms_down <- pJohnsonSB(c(dataC$DDs[inners], to), 
+                          params = list(gamma = 1.0737, delta = 1.2394, xi = 69, 
+                                        lambda = 577.22)) * (x[length(x)] - ((sqrt(desv(x[length(x)], key1(x[length(x)])) / ns)) * 
+                                                                               qnorm(0.9))) / prop
+    
+    res_err <- rmse(x, pJohnsonSB(ddss, 
+                                  params = list(gamma = 1.0737, delta = 1.2394, xi = 69, 
+                                                lambda = 577.22)) * (x[length(x)]) / prop)
+    
+    
+    
+    
+    
+    
+    desvi1 <- rep(NA, length(ms_up))
+    
+    for(i in 1:length(ms_up)){
+      if (ms_up[i] > 0) {
+        desvi1[i] <- (((sqrt(desv(ms_up[i], key1(ms_up[i])) / ns)) + (res_err)) * qnorm(0.9)) * ((1 - (ddss[length(ddss)] / 577.22)))
+      }
+      else desvi1 <- 0
+    }
+    
+    desvi2 <- rep(NA, length(ms_down))
+    
+    for(i in 1:length(ms_down)){
+      if (ms_down[i] > 0) {
+        desvi2[i] <- (((sqrt(desv(ms_down[i], key1(ms_down[i])) / ns)) + (res_err)) * qnorm(0.9)) * ((1 - (ddss[length(ddss)] / 577.22)))
+      }
+      else desvi2 <- 0
+    }
+    
+    up11 <- ms_up + desvi1
+    lo22 <- ms_down - desvi2
+    
+    lo22[which(lo22 < x[length(x)])] <- x[length(x)]
+    
+  }
+  
+  checks2 <- rep(NA, length(coll))
+  
+  for(i in 1: length(coll)) {
+    checks2[i] <- (coll[i] > up11[i]) | (coll[i] < lo22[i])
+  }
+  
+  c(up11[length(up11)] - lo22[length(lo22)], if(length(which(checks2 == TRUE)) > 3) 1 else 0)
+  
+}

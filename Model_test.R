@@ -13,35 +13,6 @@ source("./Functions.R")
 
 # For this example only data in Celsius is used, but data can also be generated
 # in Fahrenheit by changing values for xi and lambda.
-
-prod_obs <- function(DDs, ns, m) {
-  
-  dJohnSB_phC <- function(x) {
-    gamma = 1.0737
-    delta = 1.2394
-    xi = 69
-    lambda = 577.22
-    z = (x - xi) / lambda
-    (delta / (lambda * sqrt(pi*2) * z * (1-z))) * 
-      exp(-0.5 * (gamma + delta * log(z / (1 - z)))^2)
-  }
-  
-  obstw <- rep(NA, length(DDs) - 1)
-  porps <- rep(NA, (length(DDs) - 1))
-  
-  for(i in 1:(length(DDs) - 1)) {
-    porps[i] <- sum(dJohnSB_phC(seq(DDs[i], DDs[i + 1], 1)))
-  }
-  
-  for(i in 1:(length(DDs) - 1)) {
-    obstw[i] <- mean(sample(rnbinom(100000, size = key(porps[i]*m), 
-                                    mu = porps[i]*m), ns))
-  }
-  resp <- data.frame(DDs = DDs[2: length(DDs)], moths = obstw, traps = rep(ns, length(obstw)))
-  resp
-}
-
-
 # Let's use the first 12 data points of a generated dataset as input, 
 # but it can be any number.
 
