@@ -1,4 +1,7 @@
 This repository contents the code associated with prediction of codling moth population dynamics from phenology models and field data.
+
+The codling moth capture dataset used in this study is available from the Okanagan-Kootenay Sterile Insect Release Board (https://www.oksir.org/) upon reasonable request to sirinfo@oksir.org.
+
 "Var-mean_model.R" is the procedure used for Taylor's power Law parameter estimation.
 "Parameter_estimation.R" includes the functions used for parameter estimation of JohnsonSB distributions and distinction of generations with mixture models
 "Model_test.R" describes the procedure to test the models through simulations.
