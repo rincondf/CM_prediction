@@ -60,3 +60,31 @@ summary(vmmod)
 
 vmmod2 <- lm(lvar ~ lmeans, data = taylor, subset = (means > 0) & (lmeans <= xint))
 summary(vmmod2)
+
+# The following is the code that produces figure S1
+
+par(mfrow = c(1, 2), oma = c(0, 0, 1, 0))
+par(mar = c(5, 5, 2, 2) + 0.1)
+plot(log(meansCM), log(varCM), lwd = 2, xlab = "Mean (log)", 
+     ylab = "Variance (log)", cex.lab = 2, cex.axis = 1.8, yaxt = "n")
+
+axis(2, at = seq(-6, 6, 2), cex.axis = 1.8, las = 2)
+
+lines(seq(-6, xint, 0.01), mod2(seq(-6, xint, 0.01)), lwd = 2, col = "red")
+lines(seq(xint, 2.5, 0.01), mod1(seq(xint, 2.5, 0.01)), lwd = 2, col = "red")
+
+abline(v = xint, lwd = 2, lty = 2, col = "blue")
+
+mtext("A", side = 3, cex = 2, line = 1, at = -9)
+
+par(mar = c(5, 6, 2, 2) + 0.1)
+plot(cto, lwd = 2, xlab = "Iteration", 
+     ylab = "", cex.lab = 2, cex.axis = 1.8, ylim = c(-3, -1), yaxt = "n")
+
+axis(2, at = seq(-3, -1, 0.5), cex.axis = 1.8, las = 2)
+
+title(ylab = "Cutoff value", cex.lab = 2, line = 4)
+
+mtext("B", side = 3, cex = 2, line = 1, at = -5)
+
+
