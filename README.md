@@ -2,6 +2,11 @@ This repository contents the code associated with prediction of codling moth pop
 
 The codling moth capture dataset used in this study is available from the Okanagan-Kootenay Sterile Insect Release Board (https://www.oksir.org/) upon reasonable request to sirinfo@oksir.org.
 
+The provided folder should contain the following files:
+
+1. "meansCM.csv"
+2. "varCM.csv"
+
 "Var-mean_model.R" is the procedure used for Taylor's power Law parameter estimation.
 "Parameter_estimation.R" includes the functions used for parameter estimation of JohnsonSB distributions and distinction of generations with mixture models
 "Model_test.R" describes the procedure to test the models through simulations.
