@@ -11,7 +11,7 @@ cl <- makeCluster(n_cores)
 clusterExport(cl, c("deltamethodV2", "test_proc_cap", "key", "key1", "prod_obs", "desv", "vmmod", "vmmod2", "xint", "FDD_CDD"))
 
 
-# timing plus sample size
+# Data for figure 3A
 
 fall5_150 <- parSapply(cl, 1:1000, function(x) test_proc_cap(data = prod_obs(seq(70, 578, 20), ns = 5, m = 20), lim = 150, to = 578))
 fall5_250 <- parSapply(cl, 1:1000, function(x) test_proc_cap(data = prod_obs(seq(70, 578, 20), ns = 5, m = 20), lim = 250, to = 578))
@@ -33,7 +33,7 @@ fall40_250 <- parSapply(cl, 1:1000, function(x) test_proc_cap(data = prod_obs(se
 fall40_350 <- parSapply(cl, 1:1000, function(x) test_proc_cap(data = prod_obs(seq(70, 578, 20), ns = 40, m = 20), lim = 350, to = 578))
 fall40_450 <- parSapply(cl, 1:1000, function(x) test_proc_cap(data = prod_obs(seq(70, 578, 20), ns = 40, m = 20), lim = 450, to = 578))
 
-
+# Data for figure S2
 
 dens5_05 <- parSapply(cl, 1:1000, function(x) test_proc_cap(data = prod_obs(seq(70, 578, 20), ns = 5, m = 0.5), lim = 300, to = 578))
 dens5_1 <- parSapply(cl, 1:1000, function(x) test_proc_cap(data = prod_obs(seq(70, 578, 20), ns = 5, m = 1), lim = 300, to = 578))
@@ -58,6 +58,7 @@ dens40_20 <- parSapply(cl, 1:1000, function(x) test_proc_cap(data = prod_obs(seq
 
 stopCluster(cl)
 
+# Compiling data for Figure 3A
 
 N5s <- c(sum(fall5_150[2, ])/1000,
          sum(fall5_250[2, ])/1000,
