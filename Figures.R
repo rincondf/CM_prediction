@@ -147,3 +147,29 @@ axis(1, at = c(1.5, 4.5, 7.5), labels = c(40, 60, 120), cex.axis = 2)
 title(xlab = "Length of prediction\n(degree-days)", line = 5, cex.lab = 2)
 
 mtext("B", side = 3, cex = 2, line = 0.8, at = -1)
+
+
+############FIGURE 5
+
+par(mfrow = c(1, 2))
+par(mar = c(4, 8.5, 0.5, 0) + 0.1)
+plot(t350phMOb1, t350phMPr1, xlim = c(0, 1800), ylim = c(0, 1750), xaxt = "n", cex.axis = 1.8, lwd  = 2, ylab = "", cex.lab = 2,
+     xlab = "Observed mean moth captures", yaxt = "n")
+abline(0, 1, lwd = 2)
+abline(mod_val_ph, lwd = 2, lty = 2)
+
+axis(2, seq(0, 1800, 250), cex.axis = 1.8, las = 2)
+axis(1, at = seq(0, 1800, 250), cex.axis = 1.8)
+mtext("A", side = 3, cex = 2, line = -1, at = -500)
+
+title(ylab = "Predicted\nmean moth captures", line = 5, cex.lab = 2)
+
+par(mar = c(4, 5, 0.5, 3.5) + 0.1)
+plot(t350capMOb1, t350capMPr1, xlim = c(0, 1800), ylim = c(0, 1750), xaxt = "n", cex.axis = 1.8, lwd  = 2, ylab = "", cex.lab = 2,
+     xlab = "Observed mean moth captures", yaxt = "n")
+abline(0, 1, lwd = 2)
+abline(mod_val_cap, lwd = 2, lty = 2)
+
+axis(2, seq(0, 1800, 250), labels = NA, cex.axis = 1.8, las = 2)
+axis(1, at = seq(0, 1800, 250), cex.axis = 1.8)
+mtext("B", side = 3, cex = 2, line = -1, at = -300)
