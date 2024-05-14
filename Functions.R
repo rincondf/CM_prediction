@@ -137,8 +137,13 @@ prod_obs <- function(DDs, ns, m) {
 # data: data frame with the entire trajectory with three columns: "DDs" (degree-days), "moths" (mean counts), and "traps" (number of traps).
 # lim: DDs when the preduction is to be made.
 # to: DDs of the limit of the prediction (e.g., the end of the overwintering generation is 577.22 DDs)
-test_proc_cap <- function(data, lim, to) {
+test_proc_cap <- function(data, lim, to, far = FALSE) {
   dataC <- data
+  
+  if(far == TRUE) {
+    dataC$DDs <- FDD_CDD(dataC$DDs)
+  }
+  
   ddss <- dataC$DDs[which(dataC$DDs <= lim)]
   x <- cumsum(dataC$moths[which(dataC$DDs <= lim)])
   ns <- mean(dataC$traps[which(dataC$DDs <= lim)])
@@ -155,7 +160,7 @@ test_proc_cap <- function(data, lim, to) {
     delta = 0.8674057
     xi = 69.22063
     lambda = 662.5367
-    pnorm(gamma + delta * (log((x - xi) / (lambda - (x - xi)))), 0 , 1)
+    pnorm(gamma + delta * (log((pmax(x - xi, 0)) / (lambda - (pmax(x - xi, 0))))), 0 , 1)
   }
   
   rmse <- function (actual, predicted) 
@@ -225,8 +230,13 @@ test_proc_cap <- function(data, lim, to) {
 # data: data frame with the entire trajectory with three columns: "DDs" (degree-days), "moths" (mean counts), and "traps" (number of traps).
 # lim: DDs when the preduction is to be made.
 # to: DDs of the limit of the prediction (e.g., the end of the overwintering generation is 577.22 DDs)
-test_proc_ph <- function(data, lim, to) {
+test_proc_ph <- function(data, lim, to, far = FALSE) {
   dataC <- data
+  
+  if(far == TRUE) {
+    dataC$DDs <- FDD_CDD(dataC$DDs)
+  }
+  
   ddss <- dataC$DDs[which(dataC$DDs <= lim)]
   x <- cumsum(dataC$moths[which(dataC$DDs <= lim)])
   ns <- mean(dataC$traps[which(dataC$DDs <= lim)])
@@ -243,7 +253,7 @@ test_proc_ph <- function(data, lim, to) {
     delta = 1.2394
     xi = 69
     lambda = 577.22
-    pnorm(gamma + delta * (log((x - xi) / (lambda - (x - xi)))), 0 , 1)
+    pnorm(gamma + delta * (log((pmax(x - xi, 0)) / (lambda - (pmax(x - xi, 0))))), 0 , 1)
   }
   
   rmse <- function (actual, predicted) 
