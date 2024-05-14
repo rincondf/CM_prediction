@@ -3,7 +3,7 @@
 
 ##########FIGURE 2
 
-# To produce this figure, it is necessary to run the code in Parameter_estimation.R first 
+# To produce this figure, it is necessary to run the code in "Parameter_estimation.R" first 
 
 par(mfrow = c(3, 1), oma = c(0, 0, 1, 0))
 par(mar = c(3, 8, 2, 2) + 0.1)
@@ -106,7 +106,7 @@ par(xpd = NA, oma = c(0, 2, 0, 0))
 
 layout(matrix(c(1, 2, 3, 4, 3, 4), ncol = 3, byrow = FALSE))
 
-# Figure 3A requires running the sensitivity analysis
+# To produce this figure, it is necessary to run the sensitivity analysis first
 
 par(mar = c(2.5, 7, 7, 0) + 0.1)
 plot(c(150, 250, 350, 450), 1 - N5s, xlab = "", 
@@ -118,7 +118,7 @@ points(c(150, 250, 350, 450), 1 - N20s, lwd = 2, type = "o", col = "red2")
 points(c(150, 250, 350, 450), 1 - N40s, lwd = 2, type = "o", col = "brown")
 mtext("A", side = 3, cex = 2, line = 1, at = 100)
 
-# Figure 3B requires running the long-term validation analysis
+# To produce this figure, it is necessary to run the long-term validation analysis first
 
 par(mar = c(7, 7, 2.5, 0) + 0.1)
 plot(c(250, 300, 350, 400, 450), c((1 - t250cap), (1 - t300cap), (1 - t350cap), (1 - t400cap), (1 - t450cap)), 
@@ -142,7 +142,7 @@ x.axis = c(40, 60, 120)
 y.axis = c(250, 300, 350, 400, 450)
 z.axis = seq(0.9, 1, 0.05)
 
-# Figure 3C requires running the short-term validation analysis
+# To produce this figure, it is necessary to run the short-term validation analysis first
 
 par(mar = c(0, 0, 5, 0) + 0.1, xaxs = "i", yaxs = "i")
 pmat <- persp(y = c(250, 300, 350, 400, 450), x = c(40, 60, 120), (1 - t_ph), zlim = c(0.9, 1), theta = 50, phi = 25, expand = 0.6,
@@ -211,7 +211,7 @@ text(x = limits[1] - (limits[1] * 1.55), y = grconvertY(0.12, from = "ndc"),
 
 ##########FIGURE 4
 
-# Figure 4A requires running the long-term validation analysis
+# To produce this figure, it is necessary to run the long-term validation analysis first
 
 par(mfrow = c(1, 2), xpd = NA)
 
@@ -233,7 +233,7 @@ par(new = TRUE)
 plot(seq(250, 450, 1), coef(lin1)[1] + coef(lin1)[2] * seq(250, 450, 1), lwd = 3, type = "l", ylim = c(0, 12), xaxt = "n",
      yaxt = "n", ylab = "", xlab = "", lty = 3)
 
-# Figure 4A requires running the short-term validation analysis
+# To produce this figure, it is necessary to run the short-term validation analysis first
 
 par(mar = c(6, 2, 2.2, 7) + 0.1)
 
@@ -251,7 +251,7 @@ mtext("B", side = 3, cex = 2, line = 0.8, at = -1)
 
 ############FIGURE 5
 
-# This figure requires running the validation analysis of the means
+# To produce this figure, it is necessary to run the validation analysis of the means first
 
 par(mfrow = c(1, 2))
 par(mar = c(4, 8.5, 0.5, 0) + 0.1)
