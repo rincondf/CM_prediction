@@ -1489,3 +1489,112 @@ t450Ccap <- (sum(resuT_450C1[, 2]) +
                sum(resuT_450C6[, 2])) / (16 + 16 + 16 + 20 + 16 + 20)
 
 wi450Ccap <- c(resuT_450C1[, 1], resuT_450C2[, 1], resuT_450C3[, 1], resuT_450C4[, 1], resuT_450C5[, 1], resuT_450C6[, 1])
+
+
+# Compiling data for Figure 3C and 4B)
+
+t_ph <- matrix(c(t250Aph, t250Bph, t250Cph, t300Aph, t300Bph, t300Cph, t350Aph, t350Bph, t350Cph,
+                 t400Aph, t400Bph, t400Cph, t450Aph, t450Bph, t450Cph), 3, 5)
+t_cap <- matrix(c(t250Acap, t250Bcap, t250Ccap, t300Acap, t300Bcap, t300Ccap, t350Acap, t350Bcap, t350Ccap,
+                  t400Acap, t400Bcap, t400Ccap, t450Acap, t450Bcap, t450Ccap), 3, 5)
+
+# Calculating of standardized widths.
+
+wi250AcapST <- (wi250Acap / densities)
+wi250BcapST <- (wi250Bcap / densities)
+wi250CcapST <- (wi250Ccap / densities)
+
+wi300AcapST <- (wi300Acap / densities)
+wi300BcapST <- (wi300Bcap / densities)
+wi300CcapST <- (wi300Ccap / densities)
+
+wi350AcapST <- (wi350Acap / densities)
+wi350BcapST <- (wi350Bcap / densities)
+wi350CcapST <- (wi350Ccap / densities)
+
+wi400AcapST <- (wi400Acap / densities)
+wi400BcapST <- (wi400Bcap / densities)
+wi400CcapST <- (wi400Ccap / densities)
+
+wi450AcapST <- (wi450Acap / densities)
+wi450BcapST <- (wi450Bcap / densities)
+wi450CcapST <- (wi450Ccap / densities)
+
+
+wi250AphST <- (wi250Aph / densities)
+wi250BphST <- (wi250Bph / densities)
+wi250CphST <- (wi250Cph / densities)
+
+wi300AphST <- (wi300Aph / densities)
+wi300BphST <- (wi300Bph / densities)
+wi300CphST <- (wi300Cph / densities)
+
+wi350AphST <- (wi350Aph / densities)
+wi350BphST <- (wi350Bph / densities)
+wi350CphST <- (wi350Cph / densities)
+
+wi400AphST <- (wi400Aph / densities)
+wi400BphST <- (wi400Bph / densities)
+wi400CphST <- (wi400Cph / densities)
+
+wi450AphST <- (wi450Aph / densities)
+wi450BphST <- (wi450Bph / densities)
+wi450CphST <- (wi450Cph / densities)
+
+
+wi250AcapST <- (wi250Acap / densities)
+wi250BcapST <- (wi250Bcap / densities)
+wi250CcapST <- (wi250Ccap / densities)
+
+wi300AcapST <- (wi300Acap / densities)
+wi300BcapST <- (wi300Bcap / densities)
+wi300CcapST <- (wi300Ccap / densities)
+
+wi350AcapST <- (wi350Acap / densities)
+wi350BcapST <- (wi350Bcap / densities)
+wi350BcapST <- (wi350Ccap / densities)
+
+wi400AcapST <- (wi400Acap / densities)
+wi400BcapST <- (wi400Bcap / densities)
+wi400CcapST <- (wi400Ccap / densities)
+
+wi450AcapST <- (wi450Acap / densities)
+wi450BcapST <- (wi450Bcap / densities)
+wi450CcapST <- (wi450Ccap / densities)
+
+
+As_cap <- c(wi250AcapST,
+            wi300AcapST,
+            wi350AcapST,
+            wi400AcapST,
+            wi450AcapST)
+
+As_ph <- c(wi250AphST,
+           wi300AphST,
+           wi350AphST,
+           wi400AphST,
+           wi450AphST)
+
+Bs_cap <- c(wi250BcapST,
+            wi300BcapST,
+            wi350BcapST,
+            wi400BcapST,
+            wi450BcapST)
+
+Bs_ph <- c(wi250BphST,
+           wi300BphST,
+           wi350BphST,
+           wi400BphST,
+           wi450BphST)
+
+Cs_cap <- c(wi250CcapST,
+            wi300CcapST,
+            wi350CcapST,
+            wi400CcapST,
+            wi450CcapST)
+
+Cs_ph <- c(wi250CphST,
+           wi300CphST,
+           wi350CphST,
+           wi400CphST,
+           wi450CphST)

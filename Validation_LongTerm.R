@@ -549,3 +549,13 @@ wi400phST <- (wi400ph / densities)
 
 wi450capST <- (wi450cap / densities)
 wi450phST <- (wi450ph / densities)
+
+# Linear model of standardized widths across DDs when the prediction is made (used in Fig 4)
+
+widthsCC <- data.frame(times = c(rep(seq(250, 450, 50), each = 104), rep(seq(250, 450, 50), each = 104)), 
+                       widths = c(wi250capST, wi300capST, wi350capST, wi400capST, wi450capST,
+                                  wi250phST, wi300phST, wi350phST, wi400phST, wi450phST),
+                       model = rep(c("cap", "ph"), each = 1040/2))
+
+
+lin1 <- lm(widths ~ times, data = widthsCC)
