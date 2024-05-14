@@ -15,6 +15,8 @@
 # vector of degree-days repeated in frequencies associated with the respective 
 # proportions captured
 
+# The following data files will be provided on request. See readme.
+
 DDs <- read.csv("Data/DDs.csv")
 prs <- read.csv("Data/prp_DDs.csv")
 DDsC <- read.csv("Data/DDsC.csv")

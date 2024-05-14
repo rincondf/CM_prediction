@@ -5,7 +5,7 @@ source("./Functions.R")
 
 require(parallel)
 
-n_cores <- 22 # must be < the number of available cores un the computer processor.
+n_cores <- 22 # must be < the number of available cores on the computer processor.
 cl <- makeCluster(n_cores)
 
 clusterExport(cl, c("deltamethodV2", "test_proc_cap", "key", "key1", "prod_obs", "desv", "vmmod", "vmmod2", "xint", "FDD_CDD"))

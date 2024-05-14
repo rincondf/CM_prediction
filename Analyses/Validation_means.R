@@ -5,6 +5,7 @@
 # The test function can deal with F by indicating far = TRUE.
 
 source("./Functions.R")
+load("Data/Validation_data.RData") # Will be provided on request. See readme.
 
 # Phenology-based model validation
 
