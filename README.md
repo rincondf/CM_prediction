@@ -13,13 +13,10 @@ The provided folder should contain the following files:
 7. "cumprp_DDsC.csv"
 8. "Validation_data.RData"
 
-The data files should be saved in the root directory and follow the instructions in the code's annotations.
+The data files should be saved directly in the folder "Data" and follow the instructions in the code's annotations.
 
-"Var-mean_model.R" is the procedure used for Taylor's power Law parameter estimation.
-"Parameter_estimation.R" includes the functions used for parameter estimation of JohnsonSB distributions and distinction of generations with mixture models
-"Model_test.R" describes the procedure to test the models through simulations.
-"Moth_Capture_Celsius.R" is the moth capture model in C
-"Moth_Capture_Fahrenheit.R" is the moth capture model in F
-"Phenology_Celsius.R" is the phenology-based model in C
-"Phenology_Fahrenheit.R" is the phenology-based model in F
-"Functions.R" contents all required functions
+The folder "Analyses" contains the code required to run parameter estimation and model sensitivity and avalidation analyses. "Var-mean_model.R" is the procedure used for Taylor's power Law parameter estimation, "Parameter_estimation.R" includes the functions used for parameter estimation of JohnsonSB distributions and distinction of generations with mixture models, long- and short-term validation is in "Validation_LongTerm.R" and "Validation_ShortTerm.R", respectively, and "Validation_means.R" contains the code for the concordance correlation analysis.
+
+The folder "Models" contains several versions of the models: "Moth_Capture_Celsius.R" is the moth capture model in C, "Moth_Capture_Fahrenheit.R" is the moth capture model in F, "Phenology_Celsius.R" is the phenology-based model in C, and "Phenology_Fahrenheit.R" is the phenology-based model in F
+
+"Model_test.R" describes the procedure to test the models through simulations, "Functions.R" contains all required supporting functions, and "Figures.R" produces the figures in the manuscript.

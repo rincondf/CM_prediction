@@ -11,9 +11,8 @@ FDD_CDD <- function(x) {
   (5/9) * x
 }
 
-# Load variance-mean model
+# Load variance-mean linear model parameters
 load("Data/lm_varmean.RData")
-
 
 # Functions to run sensitivity analysis
 # Delta method to find confidence intervals for the moth-capture model
