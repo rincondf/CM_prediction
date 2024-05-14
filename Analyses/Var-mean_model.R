@@ -1,6 +1,6 @@
 # Variance-mean model
 
-# To run this code, please refer to the following data files: "meansCM.csv" and "varCM.csv".
+# To run this code, please refer to the following data files, which are provided on request (see readme): "meansCM.csv" and "varCM.csv".
 
 # The mentioned files are the means (x > 0) and corresponding variances of 134 trajectories from
 # seven locations, not used for validation.
@@ -34,10 +34,10 @@ findbend <- function(x, start) {
 
 # The Taylor's Power Law parameters are then found by:
 
-# For convenience, first make a data frame
+# For convenience, first make a data frame (data files provided on request, see readme):
 
-read.csv("meansCM.csv")
-read.csv("varCM.csv")
+read.csv("Data/meansCM.csv")
+read.csv("Data/varCM.csv")
 
 taylor <- data.frame(means = meansCM, var = varCM)
 
