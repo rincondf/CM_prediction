@@ -1,6 +1,6 @@
 This repository contents the code associated with prediction of codling moth population dynamics from phenology models and field data.
 
-The codling moth capture dataset used in this study is available from the Okanagan-Kootenay Sterile Insect Release Board (https://www.oksir.org/) upon reasonable request to sirinfo@oksir.org.
+The codling moth capture data set used in this study is available from the Okanagan-Kootenay Sterile Insect Release Board (https://www.oksir.org/) upon reasonable request to sirinfo@oksir.org.
 
 The provided folder should contain the following files:
 
@@ -15,7 +15,7 @@ The provided folder should contain the following files:
 
 The data files should be saved directly in the folder "Data" and follow the instructions in the code's annotations.
 
-The folder "Analyses" contains the code required to run parameter estimation and model sensitivity and avalidation analyses. "Var-mean_model.R" is the procedure used for Taylor's power Law parameter estimation, "Parameter_estimation.R" includes the functions used for parameter estimation of JohnsonSB distributions and distinction of generations with mixture models, long- and short-term validation is in "Validation_LongTerm.R" and "Validation_ShortTerm.R", respectively, and "Validation_means.R" contains the code for the concordance correlation analysis.
+The folder "Analyses" contains the code required to run parameter estimation and model sensitivity and validation analyses. "Var-mean_model.R" is the procedure used for Taylor's power Law parameter estimation, "Parameter_estimation.R" includes the functions used for parameter estimation of JohnsonSB distributions and distinction of generations with mixture models, long- and short-term validation is in "Validation_LongTerm.R" and "Validation_ShortTerm.R", respectively, and "Validation_means.R" contains the code for the concordance correlation analysis.
 
 The folder "Models" contains several versions of the models: "Moth_Capture_Celsius.R" is the moth capture model in C, "Moth_Capture_Fahrenheit.R" is the moth capture model in F, "Phenology_Celsius.R" is the phenology-based model in C, and "Phenology_Fahrenheit.R" is the phenology-based model in F
 
