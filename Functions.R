@@ -314,3 +314,167 @@ test_proc_ph <- function(data, lim, to, far = FALSE) {
   c(up11[length(up11)] - lo22[length(lo22)], if(length(which(checks2 == TRUE)) > 3) 1 else 0)
   
 }
+
+test_proc_phM1 <- function(data, lim, to, far = FALSE) {
+  dataC <- data
+  
+  if(far == TRUE) {
+    dataC$DDs <- FDD_CDD(dataC$DDs)
+  }
+  
+  ddss <- dataC$DDs[which(dataC$DDs <= lim)]
+  x <- cumsum(dataC$moths[which(dataC$DDs <= lim)])
+  ns <- mean(dataC$traps[which(dataC$DDs <= lim)])
+  
+  inners <- which((dataC$DDs >= ddss[length(ddss)]) & (dataC$DDs <= to))
+  coll <- cumsum(dataC$moths)[c(inners, (1 + inners[length(inners)]))]
+  
+  AF2 <- approxfun(dataC$DDs[c(inners, (1 + inners[length(inners)]))], 
+                   coll)
+  coll[length(coll)] <- AF2(to)
+  
+  pJohnSB_ph <- function(x) {
+    gamma = 1.0737
+    delta = 1.2394
+    xi = 69
+    lambda = 577.22
+    pnorm(gamma + delta * (log((pmax(x - xi, 0)) / (lambda - (pmax(x - xi, 0))))), 0 , 1)
+  }
+  
+  rmse <- function (actual, predicted) 
+  {
+    return(sqrt(mean((actual - predicted)^2)))
+  }
+  
+  if(sum(x) == 0) {
+    ms1 <- rep(0, 901)
+    ms_up <- rep(0, length(coll))
+    ms_down <- rep(0, length(coll))
+    up11 <- rep(0, length(coll))
+    lo22 <- rep(0, length(coll))
+  } else {
+    prop <- pJohnSB_ph(ddss[length(ddss)])
+    
+    ms1 <- pJohnSB_ph(c(dataC$DDs[inners], to)) * (x[length(x)]) / prop
+    
+    ms_up <- pJohnSB_ph(c(dataC$DDs[inners], to)) * (x[length(x)] + ((sqrt(desv(x[length(x)], key1(x[length(x)])) / ns)) * 
+                                                                             qnorm(0.9))) / prop
+    ms_down <- pJohnSB_ph(c(dataC$DDs[inners], to)) * (x[length(x)] - ((sqrt(desv(x[length(x)], key1(x[length(x)])) / ns)) * 
+                                                                               qnorm(0.9))) / prop
+    
+    res_err <- rmse(x, pJohnSB_ph(ddss) * (x[length(x)]) / prop)
+    
+    
+    desvi1 <- rep(NA, length(ms_up))
+    
+    for(i in 1:length(ms_up)){
+      if (ms_up[i] > 0) {
+        desvi1[i] <- (((sqrt(desv(ms_up[i], key1(ms_up[i])) / ns)) + (res_err)) * qnorm(0.9)) * ((1 - (ddss[length(ddss)] / 577.22)))
+      }
+      else desvi1 <- 0
+    }
+    
+    desvi2 <- rep(NA, length(ms_down))
+    
+    for(i in 1:length(ms_down)){
+      if (ms_down[i] > 0) {
+        desvi2[i] <- (((sqrt(desv(ms_down[i], key1(ms_down[i])) / ns)) + (res_err)) * qnorm(0.9)) * ((1 - (ddss[length(ddss)] / 577.22)))
+      }
+      else desvi2 <- 0
+    }
+    
+    up11 <- ms_up + desvi1
+    lo22 <- ms_down - desvi2
+    
+    lo22[which(lo22 < x[length(x)])] <- x[length(x)]
+    
+  }
+  
+  
+  
+  matrix(c(ms1, coll), length(coll), 2)
+  
+}
+
+
+test_proc_capM1 <- function(data, lim, to, far = FALSE) {
+  dataC <- data
+  
+  if(far == TRUE) {
+    dataC$DDs <- FDD_CDD(dataC$DDs)
+  }
+  
+  ddss <- dataC$DDs[which(dataC$DDs <= lim)]
+  x <- cumsum(dataC$moths[which(dataC$DDs <= lim)])
+  ns <- mean(dataC$traps[which(dataC$DDs <= lim)])
+  
+  inners <- which((dataC$DDs >= ddss[length(ddss)]) & (dataC$DDs <= to))
+  coll <- cumsum(dataC$moths)[c(inners, (1 + inners[length(inners)]))]
+  
+  AF2 <- approxfun(dataC$DDs[c(inners, (1 + inners[length(inners)]))], 
+                   coll)
+  coll[length(coll)] <- AF2(to)
+  
+  pJohnSBcap <- function(x) {
+    gamma = 0.4603673
+    delta = 0.8674057
+    xi = 69.22063
+    lambda = 662.5367
+    pnorm(gamma + delta * (log((pmax(x - xi, 0)) / (lambda - (pmax(x - xi, 0))))), 0 , 1)
+  }
+  
+  rmse <- function (actual, predicted) 
+  {
+    return(sqrt(mean((actual - predicted)^2)))
+  }
+  
+  if(sum(x) == 0) {
+    ms1 <- rep(0, 901)
+    ms_up <- rep(0, length(coll))
+    ms_down <- rep(0, length(coll))
+    up11 <- rep(0, length(coll))
+    lo22 <- rep(0, length(coll))
+  } else {
+    prop <- pJohnSBcap(ddss[length(ddss)])
+    
+    ms1 <- pJohnSBcap(c(dataC$DDs[inners], to)) * (x[length(x)]) / prop
+    
+    
+    ms_up <- pJohnSBcap(c(dataC$DDs[inners], to)) * (x[length(x)] + ((sqrt(desv(x[length(x)], key1(x[length(x)])) / ns)) * 
+                                                                               qnorm(0.9))) / prop
+    
+    ms_down <- pJohnSBcap(c(dataC$DDs[inners], to)) * (x[length(x)] - ((sqrt(desv(x[length(x)], key1(x[length(x)])) / ns)) * 
+                                                                                 qnorm(0.9))) / prop
+    
+    res_err <- rmse(x, pJohnSBcap(ddss) * (x[length(x)]) / prop)
+    
+    desvi1 <- rep(NA, length(ms_up))
+    
+    for(i in 1:length(ms_up)){
+      if (ms_up[i] > 0) {
+        desvi1[i] <- (((deltamethodV2(seq(70, 577.22)[i]) * (x[length(x)] + ((sqrt(desv(x[length(x)], key1(x[length(x)])) / ns)) * 
+                                                                               qnorm(0.9))) / prop) + (res_err)) * qnorm(0.9)) * ((1 - (ddss[length(ddss)] / 577.22)))
+      }
+      else desvi1 <- 0
+    }
+    
+    desvi2 <- rep(NA, length(ms_down))
+    
+    for(i in 1:length(ms_down)){
+      if (ms_down[i] > 0) {
+        desvi2[i] <- (((deltamethodV2(seq(70, 577.22)[i]) * (x[length(x)] - ((sqrt(desv(x[length(x)], key1(x[length(x)])) / ns)) *
+                                                                               qnorm(0.9))) / prop) + (res_err)) * qnorm(0.9)) * ((1 - (ddss[length(ddss)] / 577.22)))
+      }
+      else desvi2 <- 0
+    }
+    
+    up11 <- ms_up + desvi1
+    lo22 <- ms_down - desvi2
+    
+    lo22[which(lo22 < x[length(x)])] <- x[length(x)]
+    
+  }
+  
+  matrix(c(ms1, coll), length(coll), 2)
+  
+}
