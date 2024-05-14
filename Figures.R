@@ -1,4 +1,5 @@
-# This code produces Figures 3, 4, and 5. The code for figure 2 is in "Parameter_estimation.R"
+# This code produces Figures 3, 4, and 5. The code for figure 2 is in "Parameter_estimation.R", and the map in Figure 1
+# was developed using QGIS.
 
 ##########FIGURE 3
 
@@ -150,6 +151,8 @@ mtext("B", side = 3, cex = 2, line = 0.8, at = -1)
 
 
 ############FIGURE 5
+
+# This figure requires running the validation analysis of the means
 
 par(mfrow = c(1, 2))
 par(mar = c(4, 8.5, 0.5, 0) + 0.1)
