@@ -1,4 +1,4 @@
-# This code runs the validation analysis using observation not used for parameter estimation.
+# This code runs the validation analysis for long-term predictions using observations not used for parameter estimation.
 # It requires an R object provided on request called "Validation_data.RData".
 # The object contains six lists (each for a different location) with different number of trajectories (16-20) each in a separate data.frame
 # Note that the original degree-days are provided in Fahrenheit and should be converted to C for analysis.
