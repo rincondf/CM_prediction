@@ -12,7 +12,7 @@ FDD_CDD <- function(x) {
 }
 
 # Load variance-mean model
-load("lm_varmean.RData")
+load("Data/lm_varmean.RData")
 
 
 # Functions to run sensitivity analysis

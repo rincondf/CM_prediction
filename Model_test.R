@@ -1,7 +1,7 @@
-source("./Moth_Capture_Celsius.R")
-source("./Moth_Capture_Fahrenheit.R")
-source("./Phenology_Celsius.R")
-source("./Phenology_Fahrenheit.R")
+source("Models/Moth_Capture_Celsius.R")
+source("Models/Moth_Capture_Fahrenheit.R")
+source("Models/Phenology_Celsius.R")
+source("Models/Phenology_Fahrenheit.R")
 
 source("./Functions.R")
 
@@ -39,4 +39,3 @@ points(b$DDs, b$moths_avg,  type = "o", lwd = 2, col = "red")
 
 points(b$DDs, b$moths_max,  type = "l", lwd = 2, col = "red")
 points(b$DDs, b$moths_min,  type = "l", lwd = 2, col = "red")
-
