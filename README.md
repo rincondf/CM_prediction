@@ -20,3 +20,7 @@ The folder "Analyses" contains the code required to run parameter estimation and
 The folder "Models" contains several versions of the models: "Moth_Capture_Celsius.R" is the moth capture model in C, "Moth_Capture_Fahrenheit.R" is the moth capture model in F, "Phenology_Celsius.R" is the phenology-based model in C, and "Phenology_Fahrenheit.R" is the phenology-based model in F
 
 "Model_test.R" describes the procedure to test the models through simulations, "Functions.R" contains all required supporting functions, and "Figures.R" produces the figures in the manuscript.
+
+Both the phenology-based model and the moth-capture model are also available as shiny apps:
+- Phenology-based model in Fahrenheit: https://diego-rincon.shinyapps.io/draft2/.
+- Moth-capture model in Fahrenheit: https://diego-rincon.shinyapps.io/draft_app/.
