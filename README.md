@@ -22,5 +22,6 @@ The folder "Models" contains several versions of the models: "Moth_Capture_Celsi
 "Model_test.R" describes the procedure to test the models through simulations, "Functions.R" contains all required supporting functions, and "Figures.R" produces the figures in the manuscript.
 
 Both the phenology-based model and the moth-capture model are also available as shiny apps:
+
 - Phenology-based model in Fahrenheit: https://diego-rincon.shinyapps.io/draft2/.
 - Moth-capture model in Fahrenheit: https://diego-rincon.shinyapps.io/draft_app/.
