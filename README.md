@@ -13,7 +13,7 @@ The provided folder should contain the following files:
 7. "cumprp_DDsC.csv"
 8. "Validation_data.RData"
 
-The data files should be saved directly in the folder "Data" and follow the instructions in the code's annotations.
+The data files should be saved directly in the folder "Data" and follow the directions in the code's annotations.
 
 The folder "Analyses" contains the code required to run parameter estimation and model sensitivity and validation analyses. "Var-mean_model.R" is the procedure used for Taylor's power Law parameter estimation, "Parameter_estimation.R" includes the functions used for parameter estimation of JohnsonSB distributions and distinction of generations with mixture models, long- and short-term validation is in "Validation_LongTerm.R" and "Validation_ShortTerm.R", respectively, and "Validation_means.R" contains the code for the concordance correlation analysis.
 
