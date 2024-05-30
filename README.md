@@ -1,4 +1,4 @@
-This repository contains the code associated with prediction of codling moth population dynamics from phenology models and field data.
+This repository contains the code associated with prediction of codling moth population dynamics from phenology models and field data (Ecol. Modell. 493:110763, 10.1016/j.ecolmodel.2024.110763).
 
 The codling moth capture data set used in this study is available from the Okanagan-Kootenay Sterile Insect Release Board (https://www.oksir.org/) upon reasonable request to sirinfo@oksir.org.
 
